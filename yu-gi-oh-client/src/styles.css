@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #100d08;
+  color: #d6d3d1;
+  font-family: "Space Mono", monospace;
+}

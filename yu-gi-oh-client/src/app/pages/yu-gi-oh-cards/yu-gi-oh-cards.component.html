@@ -1,0 +1,31 @@
+@if (cards$) {
+<div class="flex flex-col w-full items-center text-center">
+  @for (card of cards$ | async; track card.id) {
+
+  <div
+    class="flex flex-col w-3/12 bg-stone-950 mb-5 rounded-lg p-5 items-center"
+  >
+    <p class="text-2xl font-bold tracking-tighter">{{ card.name }}</p>
+    <p>Level {{ card.level }}</p>
+    @if (card.attribute === "WIND") {
+    <p class="text-lg font-bold text-blue-300">{{ card.attribute }}</p>
+    } @else if (card.attribute === "FIRE") {
+    <p class="text-lg font-bold text-red-600">{{ card.attribute }}</p>
+    } @else if (card.attribute === "DARK") {
+    <p class="text-lg font-bold text-purple-900">{{ card.attribute }}</p>
+    }
+    <p class="text-lg font-bold">{{ card.rarity }}</p>
+    <img src="{{ card.image }}" class="rounded-xl w-fit h-72" />
+    <a [routerLink]="[card.id]">Details</a>
+    <!-- <div class="flex flex-row space-x-2">
+      <div class="h-full">
+        <h1>te</h1>
+      </div>
+      <div class="h-full">
+       
+      </div>
+    </div> -->
+  </div>
+  }
+</div>
+}
