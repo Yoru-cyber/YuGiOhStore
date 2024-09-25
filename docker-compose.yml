@@ -4,30 +4,55 @@ services:
       context: yu-gi-oh-api
       dockerfile: api.Dockerfile
     container_name: nest-docker-app
+    networks:
+      - proxy
     ports:
       - '3000:3000'
     volumes:
       - ./yu-gi-oh-api/src:/app/src
-  angular-client:
+  angular:
     build:
       context: yu-gi-oh-client
       dockerfile: client.Dockerfile
-    container_name: angular-docker-client
     ports:
       - '4200:4200'
     volumes:
       - ./yu-gi-oh-client/src:/app/src
   db:
-    image: postgres 
-    restart: always 
+    image: postgres
+    restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
     container_name: postgres
-    depends_on: 
+    depends_on:
       - nest-app
-    volumes: 
+    volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+  traefik-proxy:
+    image: traefik:v3.1
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.web.address=:80
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:433
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)
 
-
+networks:
+  proxy:
+    name: proxy
