@@ -8,4 +8,4 @@ RUN yarn
 
 RUN yarn global add @angular/cli
 
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
