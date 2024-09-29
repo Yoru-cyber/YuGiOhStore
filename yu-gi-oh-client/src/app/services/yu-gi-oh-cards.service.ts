@@ -14,10 +14,10 @@ export class YuGiOhCardsService {
   }
   getAll(): Observable<YuGiOhCard[]> {
     return this.httpClient.get<YuGiOhCard[]>(
-      'http://localhost:3000/v1/YuGiOhCards/'
+      'http://nest-app-yugiohstore/v1/YuGiOhCards/'
     );
   }
-  getByID(id: number): Observable<YuGiOhCard>{
-        return this.httpClient.get<YuGiOhCard>(`http://localhost:3000/v1/YuGiOhCards/${id}`);
+  getByID(id: number): Observable<YuGiOhCard> {
+    return this.httpClient.get<YuGiOhCard>(`http://nest-app-yugiohstore/v1/YuGiOhCards/${id}`);
   }
 }

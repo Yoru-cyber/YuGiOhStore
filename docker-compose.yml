@@ -1,9 +1,29 @@
 services:
+  postgresdb:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    container_name: postgres
+    networks:
+      - proxy
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
   nest-app:
     build:
       context: yu-gi-oh-api
       dockerfile: api.Dockerfile
     container_name: nest-docker-app
+    environment:
+      - DB_HOST=postgresdb
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      postgresdb:
+        condition: service_started
     networks:
       - proxy
     ports:
@@ -20,18 +40,6 @@ services:
       - '4200:4200'
     volumes:
       - ./yu-gi-oh-client/src:/app/src
-  db:
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=postgres
-    container_name: postgres
-    depends_on:
-      - nest-app
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
   traefik-proxy:
     image: traefik:v3.1
     command:

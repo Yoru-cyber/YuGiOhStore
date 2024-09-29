@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateYuGiOhCardDto } from './dto/create-yu-gi-oh-card.dto';
 import { UpdateYuGiOhCardDto } from './dto/update-yu-gi-oh-card.dto';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { YuGiOhCard } from './domain/entities/yu-gi-oh-card.entity';
-import { YuGiOhCardRepository } from './infra/yu-gi-oh-card.repository';
 @Injectable()
 export class YuGiOhCardService {
-  private repository: YuGiOhCardRepository = new YuGiOhCardRepository();
-  create(createYuGiOhCardDto: CreateYuGiOhCardDto) {
+  @InjectRepository(YuGiOhCard)
+  private readonly repository: EntityRepository<YuGiOhCard>;
+  async create(createYuGiOhCardDto: CreateYuGiOhCardDto) {
     return 'This action adds a new yuGiOhCard';
   }
 
@@ -16,7 +18,7 @@ export class YuGiOhCardService {
   }
 
   async findOne(id: number) {
-    const card = await this.repository.findById(id);
+    const card = await this.repository.findOne({ id: id });
     return card;
   }
 
@@ -25,6 +27,6 @@ export class YuGiOhCardService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} yuGiOhCard`;
+    // this.repository.
   }
 }

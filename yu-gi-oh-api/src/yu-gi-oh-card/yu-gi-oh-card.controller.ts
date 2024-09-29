@@ -28,7 +28,7 @@ export class YuGiOhCardController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.yuGiOhCardService.findOne(+id);
+    return await this.yuGiOhCardService.findOne(parseInt(id));
   }
 
   @Patch(':id')

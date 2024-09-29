@@ -1,0 +1,25 @@
+<form
+  class="flex flex-col bg-zinc-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border border-gray-100/50 w-fit justify-center items-center space-y-4 p-5 rounded-lg"
+  [formGroup]="profileForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="flex flex-col items-baseline space-y-4">
+    <span class="flex flex-row w-full space-x-2 mx-5">
+      <label>Username:</label
+      ><input
+        class="bg-stone-900/50 color-white rounded-lg"
+        type="text"
+        formControlName="username"
+        name="username"
+    /></span>
+    <span class="flex flex-row w-full space-x-2 mx-5">
+      <label>Password:</label
+      ><input
+        class="bg-stone-900/50 color-white rounded-lg"
+        type="password"
+        formControlName="password"
+        name="password"
+    /></span>
+  </div>
+  <button type="submit" [disabled]="!profileForm.invalid" >Submit</button>
+</form>
